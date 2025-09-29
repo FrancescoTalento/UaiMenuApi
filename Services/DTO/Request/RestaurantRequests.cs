@@ -9,23 +9,19 @@ using System.Threading.Tasks;
 
 namespace Services.DTO.Request
 {
-    public record AddRestaurant
+    public record CreateRestaurant
     {
         [Required, MaxLength(120)]
         public string Nome { get; set; } = string.Empty;
 
         [MaxLength(600)]
         public string? Descricao { get; set; }
-        
-        public IEnumerable<int>? AdmIdList{ get; set; }
-
-        public IEnumerable<IFormFile> Images { get; set; } = new List<IFormFile>();
-    }
+            }
 
     public record EditRestaurantRequest
     {
-        //[Required]
-        //public long Id { get; set; }
+        [Required]
+        public long Id { get; set; }
 
         [MaxLength(120)]
         public string? Nome { get; set; } 
@@ -33,9 +29,6 @@ namespace Services.DTO.Request
         [MaxLength(600)]
         public string? Descricao { get; set; }
 
-        public IEnumerable<int>? AdmIdList { get; set; }
-
-        public IEnumerable<ImageResponse>? Images { get; set; }
     }
 
 

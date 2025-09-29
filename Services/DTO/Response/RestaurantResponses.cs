@@ -10,12 +10,14 @@ namespace Services.DTO.Response
 {
     public record RestaurantResponse
     {
+        public long Id { get; set; }
+
         [MaxLength(120)]
         public string Nome { get; set; } = string.Empty;
 
         [MaxLength(600)]
         public string? Descricao { get; set; }
 
-        public IEnumerable<ImageResponse>? Images { get; set; }
+      
     }
 }

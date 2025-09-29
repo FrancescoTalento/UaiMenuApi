@@ -113,7 +113,7 @@ namespace Data.Entities
                     .HasConversion(Converters.WeekdayToPt)
                      .HasColumnType("enum('dom','seg','ter','qua','qui','sex','sab')")
                     .IsRequired();
-                b.Property(x => x.Notas).HasMaxLength(255);
+                //b.Property(x => x.Notas).HasMaxLength(255);
 
                 b.HasIndex(x => new { x.RestaurantId, x.MenuDate })
                  .IsUnique()

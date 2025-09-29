@@ -29,10 +29,10 @@ namespace Data.Entities.Models
         //[Required]
         //public DateTime MenuDateFor {  get; set; }
 
-        [MaxLength(255)]
-        public string? Notas { get; set; }
-
+        //[MaxLength(255)]
+        //public string? Notas { get; set; }
+            
         public ICollection<MenuItem> Itens { get; set; } = new List<MenuItem>();
-        public ICollection<ImageFile> Images { get; set; }
+        public ICollection<ImageFile> Images { get; set; } = new List<ImageFile>();
     }
 }

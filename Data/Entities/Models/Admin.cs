@@ -30,4 +30,5 @@ namespace Data.Entities.Models
         public bool CanManageMenus { get; set; } = false;
     }
 
+
 }
