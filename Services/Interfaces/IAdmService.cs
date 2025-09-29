@@ -11,7 +11,7 @@ namespace Services.Interfaces
     public interface IAdmService
     {
         public AdmResponse CreateAdm(AdmRequest clientRequest);
-        public AdmResponse LoginIn(AdmLoginRequest clientRequest);
+//        public AdmResponse LoginIn(AdmLoginRequest clientRequest);
         public AdmResponse EditAdm(AdmEditRequest clientRequest);
     }
 }

@@ -9,5 +9,4 @@ namespace Services.DTO.Response
 {
     public record ClientResponse(long id,string PhoneNumber, string Email,string Nome );
     
-    
 }

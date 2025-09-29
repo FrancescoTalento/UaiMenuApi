@@ -1,4 +1,5 @@
-﻿using Services.DTO.Request;
+﻿using Data.Enums;
+using Services.DTO.Request;
 using Services.DTO.Response;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,6 @@ namespace Services.Interfaces
 
         public bool DeletarMenu(int menuId);
 
-        public MenuWithItensReponse GetMenuWithItens{ get; set; }
+        public MenuWithItensReponse GetMenuWithItens(long restaurantId,Weekday weekday);
     }
 }
