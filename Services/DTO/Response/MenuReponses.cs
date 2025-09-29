@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services.DTO.Response
 {
-    public record MenuReponse
+    public record MenuResponse
     {
         public long Id { get; set; }
 
@@ -17,7 +17,7 @@ namespace Services.DTO.Response
 
         public long RestaurantId { get; set; }
     }
-    public record MenuWithItensReponse
+    public record MenuWithItemsResponse
     {
         public long Id { get; set; }
 

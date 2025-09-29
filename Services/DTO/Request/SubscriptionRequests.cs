@@ -22,7 +22,7 @@ namespace Services.DTO.Request
         public Weekday[] Days { get; set; } = Array.Empty<Weekday>();
 
     }
-    public record EditSubscriptionday
+    public record EditSubscriptionDays
     {
         [Required]
         public long SubscriptionId { get; set; }

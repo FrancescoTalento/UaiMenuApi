@@ -11,12 +11,14 @@ namespace Services.Interfaces
 {
     public interface IMenuService
     {
-        public MenuReponse AddMenu(CreateMenu menuRequest);
+        public Task<MenuResponse> AddMenu(CreateMenu menuRequest);
 
-        public MenuReponse EditMenu(CreateMenu menuRequest);
+        public Task<MenuResponse> EditMenu(EditMenu menuRequest);
 
-        public bool DeletarMenu(int menuId);
+        public Task<bool> DeletarMenu(long menuId);
 
-        public MenuWithItensReponse GetMenuWithItens(long restaurantId,Weekday weekday);
+        public Task<IEnumerable<MenuWithItemsResponse>> GetMenusWithItens(long restaurantId);
+
+        public Task<MenuItemResponse> GetMenuWithItens(long restaurantId, Weekday weekday);
     }
 }

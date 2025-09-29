@@ -1,6 +1,8 @@
 
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using Services.Interfaces;
+using Services.Services;
 
 namespace Api
 {
@@ -10,10 +12,14 @@ namespace Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+
 
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+            //builder.Services.AddScoped<IAdmService, AdmService>();
+            //builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<IMenuService, MenuService>();
+            //builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+            //builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -25,7 +31,7 @@ namespace Api
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

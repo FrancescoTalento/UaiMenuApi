@@ -4,13 +4,13 @@ namespace Services.Interfaces
 {
     public interface IRestaurantService
     {
-        public RestaurantResponse AddRestaurant(CreateRestaurant restaurantRequest);
+        public Task<RestaurantResponse> AddRestaurant(CreateRestaurant restaurantRequest);
 
-        public bool DeleteRestaurant(int idRestaurant);
+        public Task<bool> DeleteRestaurant(long idRestaurant);
 
-        public RestaurantResponse EditarRestaurant(int idRestaurant,EditRestaurantRequest editRestaurant);
+        public Task<RestaurantResponse> EditarRestaurant(long idRestaurant,EditRestaurantRequest editRestaurant);
 
-        public IEnumerable<RestaurantResponse> GetRestaurants();
+        public Task<IEnumerable<RestaurantResponse>> GetRestaurants();
 
     }
 }

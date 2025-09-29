@@ -10,8 +10,10 @@ namespace Services.Interfaces
 {
     public interface IAdmService
     {
-        public AdmResponse CreateAdm(AdmRequest clientRequest);
+        public Task<AdmResponse> CreateAdm(AdmRequest clientRequest);
 //        public AdmResponse LoginIn(AdmLoginRequest clientRequest);
-        public AdmResponse EditAdm(AdmEditRequest clientRequest);
+        public Task<AdmResponse>EditAdm(AdmEditRequest clientRequest);
+
+        public Task<bool> RemoveAdm(long  admId);
     }
 }
