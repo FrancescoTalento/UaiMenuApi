@@ -6,11 +6,13 @@ namespace Services.Interfaces
     {
         public Task<RestaurantResponse> AddRestaurant(CreateRestaurant restaurantRequest);
 
+        public Task<RestaurantResponse>? EditarRestaurant(EditRestaurantRequest editRestaurant);
+        
         public Task<bool> DeleteRestaurant(long idRestaurant);
 
-        public Task<RestaurantResponse> EditarRestaurant(long idRestaurant,EditRestaurantRequest editRestaurant);
-
         public Task<IEnumerable<RestaurantResponse>> GetRestaurants();
+
+        public Task<RestaurantResponse>? GetRestaurantById(long id);
 
     }
 }

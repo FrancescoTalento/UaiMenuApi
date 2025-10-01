@@ -11,9 +11,11 @@ namespace Services.Interfaces
     public interface IAdmService
     {
         public Task<AdmResponse> CreateAdm(AdmRequest clientRequest);
-//        public AdmResponse LoginIn(AdmLoginRequest clientRequest);
-        public Task<AdmResponse>EditAdm(AdmEditRequest clientRequest);
 
-        public Task<bool> RemoveAdm(long  admId);
+        public Task<IReadOnlyList<AdmResponse>> GetAllAdm(int restaurantId);   
+//        public AdmResponse LoginIn(AdmLoginRequest clientRequest);
+        public Task<AdmResponse>EditAdm(long admId, AdmEditRequest clientRequest);
+
+        public Task<bool> RemoveAdm(long admId);
     }
 }

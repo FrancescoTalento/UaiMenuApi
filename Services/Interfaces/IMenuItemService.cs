@@ -10,14 +10,14 @@ namespace Services.Interfaces
 {
     public interface IMenuItemService
     {
-        public Task<MenuItemResponse>CreateMenuItem(MenuItemRequest menuItemRequest);
+        public Task<MenuItemResponse> CreateMenuItem(MenuItemRequest menuItemRequest);
+
+//        Task<IReadOnlyList<MenuItemResponse>> GetMenuItemsByName(string name, long? restaurantId = null, long? menuId = null);
+        public Task<MenuItemResponse> EditMenuItem(long menuItemId,EditMenuItem editMenuItem);
 
         public Task<bool> DeleteMenuItem(long menuItemId);
 
-        public Task<IEnumerable<MenuItemResponse>> GetMenuItemByName(long menuItemId);
+        public Task<MenuWithItemsResponse> AddMenuItemToMenu(long menuItemId, long menuId);
 
-        public Task<MenuWithItemsResponse> AddMenuItemToMenu(long menuItem, long menuId);
-
-        public Task<MenuItemResponse> EditMenuItem(EditMenuItem editMenuItem);
     }
 }

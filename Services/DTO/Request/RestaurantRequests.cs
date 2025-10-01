@@ -12,11 +12,11 @@ namespace Services.DTO.Request
     public record CreateRestaurant
     {
         [Required, MaxLength(120)]
-        public string Nome { get; set; } = string.Empty;
+        public required string Nome { get; set; } 
 
-        [MaxLength(600)]
-        public string? Descricao { get; set; }
-            }
+        [MaxLength(600),Required]
+        public required string Descricao { get; set; } 
+    }
 
     public record EditRestaurantRequest
     {

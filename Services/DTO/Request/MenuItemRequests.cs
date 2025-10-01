@@ -19,8 +19,7 @@ namespace Services.DTO.Request
 
     public record EditMenuItem
     {
-        [Required]
-        public long MenuItemId { get; set; }
+        
 
         public string? Nome { get; set; }
         

@@ -14,14 +14,18 @@ namespace Api
 
 
 
-            builder.Services.AddControllers();
+            #region ServicesOfDbInteraction
             //builder.Services.AddScoped<IAdmService, AdmService>();
             //builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<IMenuService, MenuService>();
-            //builder.Services.AddScoped<IRestaurantService, RestaurantService>();
+            builder.Services.AddScoped<IRestaurantService, RestaurantService>();
             //builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            #endregion
+            builder.Services.AddControllers();
+
+
 
             var conn = builder.Configuration.GetConnectionString("Default")
     ?? "Server=127.0.0.1;Port=3306;Database=db_restaurante;User Id=root;Password=rootSenha18@2028";

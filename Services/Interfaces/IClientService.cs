@@ -15,7 +15,7 @@ namespace Services.Interfaces
         public Task<ClientResponse>CreateClient(ClientRequest clientRequest);
        // public ClientResponse LoginIn(ClientLoginRequest clientRequest);
 
-        public Task<ClientResponse> EditClient(ClientEditRequest clientRequest);
+        public Task<ClientResponse> EditClient(long clientId, ClientEditRequest clientRequest);
 
     }
 }

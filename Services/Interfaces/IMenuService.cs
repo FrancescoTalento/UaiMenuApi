@@ -13,12 +13,12 @@ namespace Services.Interfaces
     {
         public Task<MenuResponse> AddMenu(CreateMenu menuRequest);
 
-        public Task<MenuResponse> EditMenu(EditMenu menuRequest);
+        public Task<MenuResponse> EditMenu(long id, EditMenu menuRequest);
 
         public Task<bool> DeletarMenu(long menuId);
 
-        public Task<IEnumerable<MenuWithItemsResponse>> GetMenusWithItens(long restaurantId);
+        public Task<IEnumerable<MenuWithItemsResponse>> GetAllMenusWithItens(long restaurantId);
 
-        public Task<MenuItemResponse> GetMenuWithItens(long restaurantId, Weekday weekday);
+        public Task<MenuItemResponse> GetMenuWithItensByDay(long restaurantId, Weekday weekday);
     }
 }

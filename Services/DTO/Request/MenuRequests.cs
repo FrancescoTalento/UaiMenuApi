@@ -20,8 +20,6 @@ namespace Services.DTO.Request
 
     public record EditMenu
     {
-        public long Id { get; set; }
-
         public Weekday? DiaDaSemana { get; set; }
 
     }
