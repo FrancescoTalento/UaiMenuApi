@@ -15,8 +15,8 @@ namespace Api
 
 
             #region ServicesOfDbInteraction
-            //builder.Services.AddScoped<IAdmService, AdmService>();
-            //builder.Services.AddScoped<IClientService, ClientService>();
+            builder.Services.AddScoped<IAdmService, AdmService>();
+            builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<IMenuService, MenuService>();
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
             //builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();

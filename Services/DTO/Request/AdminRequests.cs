@@ -36,7 +36,8 @@ namespace Services.DTO.Request
 
     public record AdmEditRequest
     {
-     
+        [Required]
+        public required long Id { get; set; }
         public string? Email { get; set; } 
         public string? SenhaHash { get; set; } 
 

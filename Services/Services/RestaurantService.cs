@@ -46,7 +46,7 @@ namespace Services.Services
             return isDeleted;
         }
 
-        public async Task<RestaurantResponse>? EditarRestaurant(EditRestaurantRequest dto)
+        public async Task<RestaurantResponse?> EditarRestaurant(EditRestaurantRequest dto)
         {
             var entity = await this._dbContext.Restaurants.FindAsync(dto.Id);
             if (entity == null) return null;
@@ -59,16 +59,22 @@ namespace Services.Services
             return entity.ToResponse();
         }
 
-        public async Task<RestaurantResponse>? GetRestaurantById(long id)
+        public async Task<RestaurantResponse?> GetRestaurantById(long id)
         {
-            var entity = await this._dbContext.Restaurants.FindAsync(id);
+            var entity = await this._dbContext.Restaurants
+                .AsNoTracking()
+                .Where(x => x.Id == id)
+                .Select(x => x.ToResponse())
+                .FirstOrDefaultAsync();
 
-            return entity == null ? null : entity.ToResponse();
+
+            return entity == null ? null : entity;
         }
 
         public async Task<IEnumerable<RestaurantResponse>> GetRestaurants()
         {
             IQueryable<RestaurantResponse> restaurantResponses = this._dbContext.Restaurants
+                .AsNoTracking()
                 .Select(r => r.ToResponse())
                 .AsQueryable();
             return await restaurantResponses.ToListAsync();

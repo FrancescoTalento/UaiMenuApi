@@ -118,7 +118,7 @@ namespace Api.Controllers
         #region PatchStuff
 
         [HttpPatch]
-        [Route("")]
+        [Route("")] //done and working
         public async Task<IActionResult> UpdateRestaurant(EditRestaurantRequest request)
         {
             var entity = await this._restaurantService.EditarRestaurant(request);

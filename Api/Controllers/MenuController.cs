@@ -7,5 +7,7 @@ namespace Api.Controllers
     [ApiController]
     public class MenuController : ControllerBase
     {
+
+
     }
 }

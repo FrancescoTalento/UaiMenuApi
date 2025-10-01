@@ -12,9 +12,9 @@ namespace Services.Interfaces
     {
         public Task<AdmResponse> CreateAdm(AdmRequest clientRequest);
 
-        public Task<IReadOnlyList<AdmResponse>> GetAllAdm(int restaurantId);   
+        public Task<IReadOnlyList<AdmResponse>>? GetAllAdm(int restaurantId);   
 //        public AdmResponse LoginIn(AdmLoginRequest clientRequest);
-        public Task<AdmResponse>EditAdm(long admId, AdmEditRequest clientRequest);
+        public Task<AdmResponse>? EditAdm(AdmEditRequest admEditRequest);
 
         public Task<bool> RemoveAdm(long admId);
     }

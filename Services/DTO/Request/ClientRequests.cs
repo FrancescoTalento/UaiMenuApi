@@ -22,10 +22,13 @@ namespace Services.DTO.Request
     }
     public record ClientEditRequest
     {
+        [Required]
+        public required long Id { get; set; }
         public string? PhoneNumber { get; set; } 
         public string? Email { get; set; } 
         public string? SenhaHash { get; set; } 
         public string? Nome { get; set; }
+        public bool? OptIn { get; set; }
     }
 
     public record ClientLoginRequest

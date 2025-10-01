@@ -10,12 +10,12 @@ namespace Services.Interfaces
 {
     public interface IClientService
     {
-        public Task<IReadOnlyList<ClientResponse>> GetClientsOfRestaurant(long restaurantId);
+        public Task<IReadOnlyList<ClientResponse>?> GetClientsOfRestaurant(long restaurantId);
 
         public Task<ClientResponse>CreateClient(ClientRequest clientRequest);
        // public ClientResponse LoginIn(ClientLoginRequest clientRequest);
 
-        public Task<ClientResponse> EditClient(long clientId, ClientEditRequest clientRequest);
+        public Task<ClientResponse?> EditClient(ClientEditRequest clientRequest);
 
     }
 }
