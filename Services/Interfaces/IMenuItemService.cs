@@ -13,11 +13,15 @@ namespace Services.Interfaces
         public Task<MenuItemResponse> CreateMenuItem(MenuItemRequest menuItemRequest);
 
 //        Task<IReadOnlyList<MenuItemResponse>> GetMenuItemsByName(string name, long? restaurantId = null, long? menuId = null);
-        public Task<MenuItemResponse> EditMenuItem(long menuItemId,EditMenuItem editMenuItem);
+        public Task<MenuItemResponse?> EditMenuItem(long menuItemId,EditMenuItem editMenuItem);
 
         public Task<bool> DeleteMenuItem(long menuItemId);
 
-        public Task<MenuWithItemsResponse> AddMenuItemToMenu(long menuItemId, long menuId);
+        public Task<MenuWithItemsResponse?> AddMenuItemToMenu(long menuItemId, long menuId);
+
+        public Task<IReadOnlyList<MenuItemResponse>?> GetMenuItensOfAMenu(long menuId);
+
+
 
     }
 }

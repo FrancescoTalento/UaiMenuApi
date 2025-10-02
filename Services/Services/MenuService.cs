@@ -1,6 +1,10 @@
-﻿using Data.Enums;
+﻿using Data.Entities;
+using Data.Entities.Models;
+using Data.Enums;
+using Microsoft.EntityFrameworkCore;
 using Services.DTO.Request;
 using Services.DTO.Response;
+using Services.Extensions;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -13,30 +17,89 @@ namespace Services.Services
 {
     public class MenuService : IMenuService
     {
-        public Task<MenuResponse> AddMenu(CreateMenu menuRequest)
+        private readonly UaiMenuDbContext _dbContext;
+
+        public MenuService(UaiMenuDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public async Task<MenuResponse> AddMenu(CreateMenu menuRequest)
         {
             
-            throw new NotImplementedException();
+            Menu entityToAdd = menuRequest.ToEntity();
+            await this._dbContext.Menus.AddAsync(entityToAdd);
+            await this._dbContext.SaveChangesAsync();
+
+            return entityToAdd.ToResponse();
         }
 
-        public Task<bool> DeletarMenu(long menuId)
+        public async Task<bool> DeletarMenu(long menuId)
         {
-            throw new NotImplementedException();
+            var menuTodelete = await this._dbContext.Menus.FindAsync(menuId);
+            if (menuTodelete == null) { return false; };
+
+            this._dbContext.Menus.Remove(menuTodelete);
+            await this._dbContext.SaveChangesAsync();
+            return true;
         }
 
-        public Task<MenuResponse> EditMenu(long id, EditMenu menuRequest)
+        public async Task<MenuResponse?> EditMenu(EditMenu menuRequest)
         {
-            throw new NotImplementedException();
+            var menu = await this._dbContext.Menus.FindAsync(menuRequest.Id);
+            if (menu == null) { return null; };
+
+            menu.MenuDate = menuRequest.DiaDaSemana;
+            await this._dbContext.SaveChangesAsync();   
+
+            return menu.ToResponse();
         }
 
-        public Task<IEnumerable<MenuWithItemsResponse>> GetAllMenusWithItens(long restaurantId)
+        public async Task<IEnumerable<MenuWithItemsResponse>?> GetAllMenusWithItens(long restaurantId)
         {
-            throw new NotImplementedException();
+            var restaurant = await this._dbContext.Restaurants
+                .AsNoTracking()
+                .Where(r => r.Id == restaurantId)
+                .FirstOrDefaultAsync();
+            if (restaurant is null) return null;
+
+            var menusWithItensOfRestaurant = await this._dbContext.Menus
+                .AsNoTracking()
+                .Where(m => m.RestaurantId == restaurantId)
+                .Include(m => m.Itens)
+                .Select(m => m.ToFullResponse())
+                .ToListAsync();
+
+            return menusWithItensOfRestaurant;
+
         }
 
-        public Task<MenuItemResponse> GetMenuWithItensByDay(long restaurantId, Weekday weekday)
+
+        public async Task<MenuWithItemsResponse?> GetMenuWithItensByDay(long restaurantId, Weekday weekday)
         {
-            throw new NotImplementedException();
+            var restaurant = await this._dbContext.Restaurants
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.Id == restaurantId);
+            if (restaurant is null) return null;
+
+            var menus = await this._dbContext.Menus
+                .AsNoTracking()
+                .Where(m => m.RestaurantId == restaurantId && m.MenuDate == weekday)
+                .Include (m => m.Itens)
+                .Select(m => m.ToFullResponse())
+                .FirstOrDefaultAsync();
+
+            return menus;
+        }
+        public async Task<IReadOnlyList<MenuResponse>?> GetMenusById(params long[] ids)
+        {
+            var menus = this._dbContext.Menus
+                .AsNoTracking()
+                .Where(m => ids.Contains(m.Id))
+                .Select(m => m.ToResponse())
+                .AsQueryable();
+            
+            return await menus.ToListAsync();
         }
     }
 }

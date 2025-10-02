@@ -1,4 +1,5 @@
 ﻿using Data.Entities.Models;
+using Services.DTO.Request;
 using Services.DTO.Response;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,18 @@ namespace Services.Extensions
                 Id = entity.Id,
                 DiaDaSemana = entity.MenuDate,
                 RestaurantId = entity.RestaurantId
+            };
+        }
+        #endregion
+
+        #region ToEntity
+
+        public static Menu ToEntity(this CreateMenu createMenuRequest) 
+        {
+            return new Menu()
+            {
+                RestaurantId = createMenuRequest.RestaurantId,
+                MenuDate = createMenuRequest.DiaDaSemana,
             };
         }
         #endregion
