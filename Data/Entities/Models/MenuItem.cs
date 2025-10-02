@@ -14,9 +14,14 @@ namespace Data.Entities.Models
     {
         [Key] public long Id { get; set; }
 
+        
+        [ForeignKey(nameof(Restaurant))]
+        public long RestaurantId { get; set; }
+        public Restaurant Restaurant { get; set; } = null!;
+
         [ForeignKey(nameof(Menu))]
-        public long MenuId { get; set; }
-        public Menu Menu { get; set; } = null!;
+        public long? MenuId { get; set; }
+        public Menu? Menu { get; set; } 
 
         [Required, MaxLength(15)]
         public ItemTipo Tipo { get; set; }
@@ -27,5 +32,7 @@ namespace Data.Entities.Models
         public int Posicao { get; set; } = 1;
 
         public ICollection<ImageFile> Images { get; set; }
+        public ICollection<Menu> Menus { get; set; } = new List<Menu>();
+
     }
 }

@@ -118,6 +118,7 @@ namespace Data.Entities
                 b.HasIndex(x => new { x.RestaurantId, x.MenuDate })
                  .IsUnique()
                  .HasDatabaseName("uq_menu_rest_dow");
+                b.HasIndex(m => new { m.Id, m.RestaurantId }).IsUnique(); 
 
                 b.HasOne(x => x.Restaurant)
                  .WithMany(r => r.Menus)
@@ -139,11 +140,22 @@ namespace Data.Entities
                     .HasConversion(Converters.ItemTipoToLower)
                     .HasColumnType("enum('carne','acompanhamento','salada')")
                     .IsRequired();
+                b.HasOne(mi => mi.Restaurant)
+                .WithMany(r => r.MenuItems)                
+                .HasForeignKey(mi => mi.RestaurantId)
+                .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasOne(x => x.Menu)
-                 .WithMany(m => m.Itens)
-                 .HasForeignKey(x => x.MenuId)
-                 .OnDelete(DeleteBehavior.Cascade);
+                b.Property(mi => mi.MenuId).IsRequired(false);
+
+                //b.HasOne(x => x.Menu)
+                // .WithMany(m => m.Itens)
+                // .HasForeignKey(x => x.MenuId)
+                // .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasOne<Menu>()
+                .WithMany()
+                .HasForeignKey(mi => new { mi.MenuId, mi.RestaurantId })   
+                .HasPrincipalKey(m => new { m.Id, m.RestaurantId });
             });
 
             // imagem

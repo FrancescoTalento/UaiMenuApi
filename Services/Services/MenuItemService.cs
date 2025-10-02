@@ -24,17 +24,28 @@ namespace Services.Services
         public async Task<MenuWithItemsResponse?> AddMenuItemToMenu(long menuItemId, long menuId)
         {
             var menu = await this._dbContext.Menus
-                .AsNoTracking()
+                .Include(m=> m.Itens)
                 .FirstOrDefaultAsync(m => m.Id == menuId);
             if (menu == null) { return null; }
 
             var menuItem = await this._dbContext.MenuItems.FindAsync(menuItemId);
             if (menuItem == null) { return null; };
 
+
+            if(menuItem.MenuId == menu.Id)
+            {
+                return menu.ToFullResponse();
+            }
+
             menuItem.MenuId = menuId;
+            if(!menu.Itens.Any(i => i.Id ==menuItem.Id)) 
+            { 
+                menu.Itens.Add(menuItem);  
+            }
 
             await this._dbContext.SaveChangesAsync();
-            return menuItem.ToResponse();
+
+            return menu.ToFullResponse();
 
         }
 

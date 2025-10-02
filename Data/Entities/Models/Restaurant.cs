@@ -23,5 +23,6 @@ namespace Data.Entities.Models
         public ICollection<Subscription> Subscriptions { get; set; } = new List<Subscription>();
         public ICollection<Menu> Menus { get; set; } = new List<Menu>();
         public ICollection<ImageFile> Images { get; set; }
+        public ICollection<MenuItem> MenuItems { get; set; } = new List<MenuItem>();
     }
 }
