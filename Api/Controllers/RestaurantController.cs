@@ -15,6 +15,7 @@ namespace Api.Controllers
         private readonly IRestaurantService _restaurantService;
         private readonly IAdmService _admService;
         private readonly IClientService _clientService;
+        private readonly ISubscriptionService _subscriptionService;
 
 
         #endregion
@@ -22,13 +23,14 @@ namespace Api.Controllers
         public RestaurantController
             (
             IRestaurantService restaurantService,
-            IAdmService admService, 
-            IClientService clientService
-            )
+            IAdmService admService,
+            IClientService clientService,
+            ISubscriptionService subscriptionService)
         {
             this._restaurantService = restaurantService;
             _admService = admService;
             _clientService = clientService;
+            _subscriptionService = subscriptionService;
         }
 
         #region GetStuff
@@ -69,6 +71,7 @@ namespace Api.Controllers
             return Ok(response);
         }
         #endregion
+
         #region ClientRelated
         [HttpGet]
         [Route("{restaurantId}/clients")]
@@ -108,10 +111,17 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        [Route("{restaurantId}/subscriptions/clients/{weekday})")]
-        public async Task<IActionResult> GetClientsOfSubscriptionsByWeekday(long restaurantId, Weekday weekday)
+        [Route("{restaurantId}/subscriptions/clients)")]
+        public async Task<IActionResult> GetClientsOfSubscriptionsByWeekday(long restaurantId,[FromQuery(Name ="days")] Weekday[]? weekdays)
         {
-            throw new NotImplementedException();
+            var filter = (weekdays is null || weekdays.Length == 0)
+                ? Enum.GetValues<Weekday>()
+                : weekdays;
+
+            var response = await this._subscriptionService.GetClientsOfSubscriptionDay(restaurantId, filter);
+            if(response is null) return NotFound($"RestaurantId Invalid {restaurantId}");
+
+            return Ok(response);
         }
         #endregion
 

@@ -10,7 +10,7 @@ namespace Services.DTO.Response
 {
     public record SubscriptionResponse
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public long RestaurantId { get; set; }
 

@@ -19,7 +19,7 @@ namespace Api
             builder.Services.AddScoped<IClientService, ClientService>();
             builder.Services.AddScoped<IMenuService, MenuService>();
             builder.Services.AddScoped<IRestaurantService, RestaurantService>();
-            //builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
+            builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             #endregion

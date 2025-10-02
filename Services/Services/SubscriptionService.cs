@@ -22,9 +22,16 @@ namespace Services.Services
             _dbContext = dbContext;
         }
 
-        public Task<SubscriptionResponse> EditSubscriptionDays(EditSubscriptionDays editSubscriptionRequest)
+        public async Task<SubscriptionResponse?> EditSubscriptionDays(EditSubscriptionDays editSubscriptionRequest)
         {
-            throw new NotImplementedException();
+            var entityToEdit = await this._dbContext.Subscriptions.FindAsync(editSubscriptionRequest.SubscriptionId);
+
+            if (entityToEdit == null) { return null; };
+            entityToEdit.Days = editSubscriptionRequest.NewDays;
+
+            await this._dbContext.SaveChangesAsync();
+
+            return entityToEdit.ToResponse();
         }
 
         public async Task<IEnumerable<ClientResponse>?> GetClientsOfSubscriptionDay(long restaurantId, Weekday[] days)
@@ -42,7 +49,6 @@ namespace Services.Services
                 .OrderBy(s => s.Days);
 
             var clients = await q   
-
                 .Select(s => s.Client)
                 .Distinct()
                 .Select(c => c.ToResponse())
@@ -51,19 +57,59 @@ namespace Services.Services
             return clients;
         }
 
-        public Task<IReadOnlyList<MenuWithItemsResponse>> GetMenusOfSubscription(long subscriptionId)
+        public async Task<IReadOnlyList<MenuWithItemsResponse>?> GetMenusOfSubscription(long subscriptionId)
         {
-            throw new NotImplementedException();
+            var subscription = await this._dbContext.Subscriptions
+                .AsNoTracking()
+                .Where(s => s.Id == subscriptionId)
+                .Select(s => new { s.RestaurantId, s.Days })
+                .FirstOrDefaultAsync();
+            if (subscription == null) { return null; };
+
+            if(subscription.Days is null || subscription.Days.Length == 0) 
+            {
+                return Array.Empty<MenuWithItemsResponse>(); 
+            };
+
+            var days = subscription.Days;
+            var menuList = await this._dbContext.Menus
+                .AsNoTracking()
+                .Where(m => m.RestaurantId.Equals(subscription.RestaurantId) && days.Contains(m.MenuDate))
+                .Include(m => m.Itens)
+                .Select(m => m.ToFullResponse())
+                .ToListAsync();
+
+            return menuList;
+
         }
 
-        public Task<IReadOnlyList<SubscriptionResponse>> GetSubscriptionByDay(long restaurantId, Weekday[] days)
+        public async Task<IReadOnlyList<SubscriptionResponse>?> GetSubscriptionByDay(long restaurantId, Weekday[] days)
         {
-            throw new NotImplementedException();
+            var restaurant = await this._dbContext.Restaurants.AsNoTracking().FirstOrDefaultAsync(s => s.Id == restaurantId);
+            if (restaurant == null) { return null; }
+
+            var q = await this._dbContext.Subscriptions
+                .AsNoTracking()
+                .Where(s => s.Days.Any(d => days.Contains(d)))
+                .Select(s => s.ToResponse())
+                .ToListAsync();
+            
+            return q;
         }
 
-        public Task<SubscriptionResponse> SubscribeTo(CreateSubscription subscriptionRequest)
+        public async Task<SubscriptionResponse?> SubscribeTo(CreateSubscription subscriptionRequest)
         {
-            throw new NotImplementedException();
+            var restaurant = await this._dbContext.Restaurants.AsNoTracking().FirstOrDefaultAsync(r => r.Id ==subscriptionRequest.RestaurantId);
+            if (restaurant == null) return null;
+            
+            var client = await this._dbContext.Clients.AsNoTracking().FirstOrDefaultAsync(c => c.Id == subscriptionRequest.ClientId);
+            if(client == null) return null;
+
+            var entityToAdd = subscriptionRequest.ToEntity();
+            await this._dbContext.Subscriptions.AddAsync(entityToAdd);
+            await this._dbContext.SaveChangesAsync();
+
+            return entityToAdd.ToResponse();
         }
 
         public async Task<bool> Unsubscribe(long subscriptionId)

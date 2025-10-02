@@ -12,19 +12,19 @@ namespace Services.Interfaces
 {
     public interface ISubscriptionService
     {
-        public Task<SubscriptionResponse> SubscribeTo(CreateSubscription subscriptionRequest);
+        public Task<SubscriptionResponse?> SubscribeTo(CreateSubscription subscriptionRequest);
 
         public Task<bool> Unsubscribe(long subscriptionId);
 
-        public Task<SubscriptionResponse> EditSubscriptionDays(EditSubscriptionDays editSubscriptionRequest);
+        public Task<SubscriptionResponse?> EditSubscriptionDays(EditSubscriptionDays editSubscriptionRequest);
 
         //public Task<SubscriptionResponse> DeleteSubscriptionDays(long subscriptionId);
 
-        public Task<IReadOnlyList<SubscriptionResponse>> GetSubscriptionByDay(long restaurantId,Weekday[] days);
+        public Task<IReadOnlyList<SubscriptionResponse>?> GetSubscriptionByDay(long restaurantId,Weekday[] days);
 
         public Task<IEnumerable<ClientResponse>?> GetClientsOfSubscriptionDay(long restaurantId, Weekday[] days);
 
-        public Task<IReadOnlyList<MenuWithItemsResponse>> GetMenusOfSubscription(long subscriptionId);
+        public Task<IReadOnlyList<MenuWithItemsResponse>?> GetMenusOfSubscription(long subscriptionId);
         
 
     }

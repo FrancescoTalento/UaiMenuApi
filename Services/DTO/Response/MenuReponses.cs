@@ -25,6 +25,6 @@ namespace Services.DTO.Response
 
         public long RestaurantId { get; set; }
 
-        IReadOnlyList<MenuItemResponse> ItemResponses { get; set; }
+        public IReadOnlyList<MenuItemResponse> ItemResponses { get; set; }
     } 
 }
