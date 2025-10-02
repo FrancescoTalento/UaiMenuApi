@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Services.DTO.Response
 {
-    public record ClientResponse(long id,string PhoneNumber, string Email,string Nome, bool? OptIn);
+    public record ClientResponse(long id,string PhoneNumber, string Email,string? Nome, bool? OptIn);
     
 }

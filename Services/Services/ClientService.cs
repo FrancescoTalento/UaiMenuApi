@@ -32,6 +32,20 @@ namespace Services.Services
             return clienteToAdd.ToResponse();
         }
 
+        public async Task<bool> DeleteClient(long clientId)
+        {
+            var clientToDelte = await this._dbContext.Clients.FindAsync(clientId);
+
+            bool exists = clientToDelte is null ? false : true;
+            if (exists) 
+            {
+                this._dbContext.Remove(clientToDelte);
+                await this._dbContext.SaveChangesAsync();
+            }
+
+            return exists;
+        }
+
         public async Task<ClientResponse?> EditClient(ClientEditRequest clientRequest)
         {
             Cliente? clientToEdit = await this._dbContext.Clients.FindAsync(clientRequest.Id);
@@ -65,5 +79,6 @@ namespace Services.Services
                 .ToListAsync();
             return clients ?? new List<ClientResponse>() { };
         }
+
     }
 }

@@ -32,5 +32,15 @@ namespace Api.Controllers
 
             return Ok(response);
         }
+
+        [HttpDelete]
+        [Route("{clientId}")]
+        public async Task<IActionResult> DeleteClient(long clientId)
+        {
+            bool isDeleted = await this._clientService.DeleteClient(clientId);
+            if(isDeleted) return NotFound(clientId);
+
+            return Ok(isDeleted);
+        }
     }
 }

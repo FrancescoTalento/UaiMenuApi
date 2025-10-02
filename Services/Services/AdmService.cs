@@ -22,9 +22,16 @@ namespace Services.Services
             this._dbcontext = dbContext;
         }
 
-        public async Task<AdmResponse> CreateAdm(AdmRequest clientRequest)
+        public async Task<AdmResponse?> CreateAdm(AdmRequest admRequest)
         {
-            Admin adminToAdd = clientRequest.ToEntity();
+            Restaurant? restaurant = await this._dbcontext.Restaurants
+                .AsNoTracking()
+                .FirstOrDefaultAsync(r => r.Id == admRequest.RestaurantId);
+
+            if (restaurant == null) { return null; }
+
+            Admin adminToAdd = admRequest.ToEntity();
+
             
             await this._dbcontext.Admins.AddAsync(adminToAdd);
 
@@ -32,7 +39,7 @@ namespace Services.Services
             return adminToAdd.ToResponse();
         }
 
-        public async Task<AdmResponse>? EditAdm(AdmEditRequest admEditRequest)
+        public async Task<AdmResponse?> EditAdm(AdmEditRequest admEditRequest)
         {
             var entity = await this._dbcontext.Admins.FindAsync(admEditRequest.Id);
             if (entity == null) { return null; }
@@ -47,7 +54,7 @@ namespace Services.Services
 
         }
 
-        public async Task<IReadOnlyList<AdmResponse>?> GetAllAdm(int restaurantId)
+        public async Task<IReadOnlyList<AdmResponse>?> GetAllAdmOfRestaurant(long restaurantId)
         {
             var restaurant = await this._dbcontext.Restaurants
                 .Include(r => r.Admins)

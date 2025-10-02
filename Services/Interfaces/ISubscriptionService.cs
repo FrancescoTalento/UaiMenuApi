@@ -18,11 +18,11 @@ namespace Services.Interfaces
 
         public Task<SubscriptionResponse> EditSubscriptionDays(EditSubscriptionDays editSubscriptionRequest);
 
-        public Task<SubscriptionResponse> DeleteSubscriptionDays(long subscriptionId);
+        //public Task<SubscriptionResponse> DeleteSubscriptionDays(long subscriptionId);
 
         public Task<IReadOnlyList<SubscriptionResponse>> GetSubscriptionByDay(long restaurantId,Weekday[] days);
 
-        public Task<IEnumerable<ClientResponse>> GetClientsOfSubscriptionDay(long restaurantId, Weekday[] days);
+        public Task<IEnumerable<ClientResponse>?> GetClientsOfSubscriptionDay(long restaurantId, Weekday[] days);
 
         public Task<IReadOnlyList<MenuWithItemsResponse>> GetMenusOfSubscription(long subscriptionId);
         

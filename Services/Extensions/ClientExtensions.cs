@@ -33,7 +33,7 @@ namespace Services.Extensions
                 (
                     Email: entity.Email,
                     id: entity.Id,
-                    Nome: entity.Nome,
+                    Nome: entity.Nome ?? null,
                     PhoneNumber: entity.Phone,
                     OptIn: entity.OptIn
                 );

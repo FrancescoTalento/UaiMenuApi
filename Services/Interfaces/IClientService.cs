@@ -17,5 +17,7 @@ namespace Services.Interfaces
 
         public Task<ClientResponse?> EditClient(ClientEditRequest clientRequest);
 
+        public Task<bool> DeleteClient(long clientId);
+
     }
 }

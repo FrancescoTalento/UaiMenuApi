@@ -13,16 +13,22 @@ namespace Api.Controllers
     {
         #region DbServices
         private readonly IRestaurantService _restaurantService;
+        private readonly IAdmService _admService;
+        private readonly IClientService _clientService;
 
 
         #endregion
 
         public RestaurantController
             (
-            IRestaurantService restaurantService
+            IRestaurantService restaurantService,
+            IAdmService admService, 
+            IClientService clientService
             )
         {
             this._restaurantService = restaurantService;
+            _admService = admService;
+            _clientService = clientService;
         }
 
         #region GetStuff
@@ -57,8 +63,23 @@ namespace Api.Controllers
         [Route("{restaurantId}/admins")]
         public async Task<IActionResult> GetAdmOfRestaurant(long restaurantId)
         {
-            throw new NotImplementedException();
+            var response = await this._admService.GetAllAdmOfRestaurant(restaurantId);
+            if (response == null) return NotFound($"Invalid restaurantId {restaurantId}");
+
+            return Ok(response);
         }
+        #endregion
+        #region ClientRelated
+        [HttpGet]
+        [Route("{restaurantId}/clients")]
+        public async Task<IActionResult> GetClientsOfRestaurant(long restaurantId)
+        {
+            var response = await this._clientService.GetClientsOfRestaurant(restaurantId);
+            if(response == null) return NotFound($"Invalid restaurantId {restaurantId}");
+            
+            return Ok(response);
+        }
+
         #endregion
 
         #region MenuRelated

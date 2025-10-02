@@ -22,6 +22,8 @@ namespace Api.Controllers
         {
             var response = await this._admService.CreateAdm(clientRequest);
 
+            if (response == null) { return BadRequest($"Not Existing RestaurantId ${clientRequest.RestaurantId}"); }
+
             return Ok(response);
 
         }
@@ -40,7 +42,7 @@ namespace Api.Controllers
         public async Task<IActionResult> DeleteAdm(long admId)
         {
             bool isDeleted = await this._admService.RemoveAdm(admId);
-            return isDeleted ? Ok(isDeleted) : NotFound(isDeleted);
+            return isDeleted ? Ok($"deleted {admId}") : NotFound($"Not Found adm {admId}");
         }
     }
 }
