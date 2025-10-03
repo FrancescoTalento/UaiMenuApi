@@ -11,20 +11,26 @@ namespace Services.DTO.Request
     public record MenuItemRequest
     {
         [Required]
-        public string Name { get; set; }
+        public string Nome { get; set; }
         [Required]
         public ItemTipo TipoDoMenuItem { get; set; }
+        
+        [Required]
+        public long RestaurantId { get; set; }
+
+        public int Posicao { get; set; } = 1;
+        
 
     }
 
     public record EditMenuItem
     {
-        
-
+        [Required]
+        public required long  Id { get; set; }
         public string? Nome { get; set; }
         
         public ItemTipo? Tipo { get; set; }
 
-        public int Posicao { get; set; }
+        public int? Posicao { get; set; }
     }
 }

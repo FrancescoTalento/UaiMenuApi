@@ -9,7 +9,7 @@ namespace Services.DTO.Response
 {
     public record MenuItemResponse(
         long Id,
-        long? MenuId,
+        long? RestaurantId,
         string Nome,
         ItemTipo Tipo,
         int Posicao

@@ -118,12 +118,15 @@ namespace Data.Entities
                 b.HasIndex(x => new { x.RestaurantId, x.MenuDate })
                  .IsUnique()
                  .HasDatabaseName("uq_menu_rest_dow");
-                b.HasIndex(m => new { m.Id, m.RestaurantId }).IsUnique(); 
 
                 b.HasOne(x => x.Restaurant)
                  .WithMany(r => r.Menus)
                  .HasForeignKey(x => x.RestaurantId)
                  .OnDelete(DeleteBehavior.Cascade);
+
+                b.HasMany(m => m.Itens)
+                 .WithMany(i => i.Menus)
+                 .UsingEntity(j => j.ToTable("menu_menu_item"));
             });
 
             // menu_item
@@ -144,18 +147,6 @@ namespace Data.Entities
                 .WithMany(r => r.MenuItems)                
                 .HasForeignKey(mi => mi.RestaurantId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-                b.Property(mi => mi.MenuId).IsRequired(false);
-
-                //b.HasOne(x => x.Menu)
-                // .WithMany(m => m.Itens)
-                // .HasForeignKey(x => x.MenuId)
-                // .OnDelete(DeleteBehavior.Cascade);
-
-                b.HasOne<Menu>()
-                .WithMany()
-                .HasForeignKey(mi => new { mi.MenuId, mi.RestaurantId })   
-                .HasPrincipalKey(m => new { m.Id, m.RestaurantId });
             });
 
             // imagem

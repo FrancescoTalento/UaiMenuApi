@@ -19,9 +19,6 @@ namespace Data.Entities.Models
         public long RestaurantId { get; set; }
         public Restaurant Restaurant { get; set; } = null!;
 
-        [ForeignKey(nameof(Menu))]
-        public long? MenuId { get; set; }
-        public Menu? Menu { get; set; } 
 
         [Required, MaxLength(15)]
         public ItemTipo Tipo { get; set; }

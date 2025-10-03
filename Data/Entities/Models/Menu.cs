@@ -34,7 +34,5 @@ namespace Data.Entities.Models
             
         public ICollection<MenuItem> Itens { get; set; } = new List<MenuItem>();
         public ICollection<ImageFile> Images { get; set; } = new List<ImageFile>();
-        public ICollection<MenuItem> Items { get; set; } = new List<MenuItem>();
-
     }
 }
