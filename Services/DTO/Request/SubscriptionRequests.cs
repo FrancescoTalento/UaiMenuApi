@@ -19,7 +19,7 @@ namespace Services.DTO.Request
         public TimeOnly HoraEnvioLocal { get; set; } = new TimeOnly(10,0);
 
         [Required]
-        public Weekday[] Days { get; set; } = Array.Empty<Weekday>();
+        public required Weekday[] Days { get; set; }
 
     }
     public record EditSubscriptionDays

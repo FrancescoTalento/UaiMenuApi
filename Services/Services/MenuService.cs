@@ -89,7 +89,7 @@ namespace Services.Services
                 .Select(m => m.ToFullResponse())
                 .FirstOrDefaultAsync();
 
-            return menus;
+            return menus ?? new MenuWithItemsResponse();
         }
         public async Task<IReadOnlyList<MenuResponse>?> GetMenusById(params long[] ids)
         {

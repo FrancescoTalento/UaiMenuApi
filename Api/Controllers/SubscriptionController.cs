@@ -38,7 +38,7 @@ namespace Api.Controllers
 
         [HttpPatch]
         [Route("{subscriptionId}/days")]
-        public async Task<IActionResult> PatchDaysSubscriptions(Weekday[] newWeekDays, long subscriptionId, EditSubscriptionDays request) 
+        public async Task<IActionResult> PatchDaysSubscriptions(long subscriptionId, EditSubscriptionDays request) 
         {
             var response = await this._subscriptionService.EditSubscriptionDays(request);
             if (response == null) { return NotFound($"SubscriptionId {subscriptionId} was not found"); }

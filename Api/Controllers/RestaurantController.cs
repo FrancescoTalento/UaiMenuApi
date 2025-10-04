@@ -127,10 +127,12 @@ namespace Api.Controllers
 
         #region SubscriptionRelated
         [HttpGet]
-        [Route("{restaurantId}/subscriptions/{weekday})")]
+        [Route("{restaurantId}/subscriptions/{weekday}")]
         public async Task<IActionResult> GetSubscriptionsByWeekday(long restaurantId, Weekday weekday)
         {
             var responsse = await this._subscriptionService.GetSubscriptionByDay(restaurantId, new Weekday[] { weekday });
+
+
             if(responsse == null) return NotFound($"Restaurant id {restaurantId} was not found");
 
             return Ok(responsse);
@@ -138,13 +140,13 @@ namespace Api.Controllers
 
         [HttpGet]
         [Route("{restaurantId}/subscriptions/clients)")]
-        public async Task<IActionResult> GetClientsOfSubscriptionsByWeekday(long restaurantId,[FromQuery(Name ="days")] Weekday[]? weekdays)
+        public async Task<IActionResult> GetClientsOfSubscriptionsByWeekday(long restaurantId,[FromQuery] Weekday weekdays)
         {
-            var filter = (weekdays is null || weekdays.Length == 0)
-                ? Enum.GetValues<Weekday>()
-                : weekdays;
+//            var filter = (weekdays is null || weekdays.Length == 0)
+  //              ? Enum.GetValues<Weekday>()
+    //            : weekdays;
 
-            var response = await this._subscriptionService.GetClientsOfSubscriptionDay(restaurantId, filter);
+           var response = await this._subscriptionService.GetClientsOfSubscriptionDay(restaurantId,new Weekday[] { weekdays });
             if(response is null) return NotFound($"RestaurantId Invalid {restaurantId}");
 
             return Ok(response);

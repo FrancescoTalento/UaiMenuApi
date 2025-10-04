@@ -35,7 +35,7 @@ namespace Services.Extensions
                     id: entity.Id,
                     Nome: entity.Nome ?? null,
                     PhoneNumber: entity.Phone,
-                    OptIn: entity.OptIn
+                    OptIn: entity.OptIn 
                 );
         }
         #endregion

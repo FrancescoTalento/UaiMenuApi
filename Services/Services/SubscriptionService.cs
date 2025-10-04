@@ -36,26 +36,23 @@ namespace Services.Services
 
         public async Task<IEnumerable<ClientResponse>?> GetClientsOfSubscriptionDay(long restaurantId, Weekday[] days)
         {
-            
-            var restaurant = await this._dbContext.Restaurants
-                .AsNoTracking()
-                .FirstOrDefaultAsync(r => r.Id == restaurantId);
-            if (restaurant == null) { return null; }
-
-            var q = this._dbContext.Subscriptions
+            var subs = await _dbContext.Subscriptions
                 .AsNoTracking()
                 .Where(s => s.RestaurantId == restaurantId)
-                .Where(s => s.Days.Any(d => days.Contains(d)))
-                .OrderBy(s => s.Days);
+                .Include(s => s.Client)
+                .ToListAsync();
 
-            var clients = await q   
+            var clients = subs
+                .Where(s => s.Days.Any(d => days.Contains(d))) 
                 .Select(s => s.Client)
                 .Distinct()
                 .Select(c => c.ToResponse())
-                .ToListAsync();
+                .ToList();
 
             return clients;
         }
+
+
 
         public async Task<IReadOnlyList<MenuWithItemsResponse>?> GetMenusOfSubscription(long subscriptionId)
         {
@@ -85,16 +82,26 @@ namespace Services.Services
 
         public async Task<IReadOnlyList<SubscriptionResponse>?> GetSubscriptionByDay(long restaurantId, Weekday[] days)
         {
-            var restaurant = await this._dbContext.Restaurants.AsNoTracking().FirstOrDefaultAsync(s => s.Id == restaurantId);
-            if (restaurant == null) { return null; }
+            var restaurantExists = await _dbContext.Restaurants
+                .AsNoTracking()
+                .AnyAsync(r => r.Id == restaurantId);
+
+            if (!restaurantExists)
+                return null; 
+            
 
             var q = await this._dbContext.Subscriptions
                 .AsNoTracking()
-                .Where(s => s.Days.Any(d => days.Contains(d)))
-                .Select(s => s.ToResponse())
+                .AsQueryable()
+                .Where(s => s.RestaurantId == restaurantId)
                 .ToListAsync();
-            
-            return q;
+
+            var subcription = q
+                .Select(s => s.ToResponse())
+                .Where(s => s.Days.Any(days.Contains));
+                
+
+            return subcription.ToList() ?? new List<SubscriptionResponse>();
         }
 
         public async Task<SubscriptionResponse?> SubscribeTo(CreateSubscription subscriptionRequest)

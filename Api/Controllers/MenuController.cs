@@ -58,7 +58,7 @@ namespace Api.Controllers
         [Route("{menuId}/items/{menuItemId}")]
         public async Task<IActionResult> AddMenuItemToMeu(long menuId, long menuItemId)
         {
-            var response = await this._menuItemService.AddMenuItemToMenu(menuId, menuItemId);
+            var response = await this._menuItemService.AddMenuItemToMenu(menuItemId, menuId);
             if (response == null) { return NotFound($"Menu ({menuId}) or MenuItem ({menuItemId}) not found"); }
             
             return Ok(response);
