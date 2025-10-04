@@ -17,6 +17,7 @@ namespace Api.Controllers
         private readonly IClientService _clientService;
         private readonly ISubscriptionService _subscriptionService;
         private readonly IMenuService _menuService;
+        private readonly IMenuItemService _menuItemService;
 
         #endregion
 
@@ -26,13 +27,15 @@ namespace Api.Controllers
             IAdmService admService,
             IClientService clientService,
             ISubscriptionService subscriptionService,
-            IMenuService menuService)
+            IMenuService menuService,
+            IMenuItemService menuItemService)
         {
             this._restaurantService = restaurantService;
             _admService = admService;
             _clientService = clientService;
             _subscriptionService = subscriptionService;
             _menuService = menuService;
+            _menuItemService = menuItemService;
         }
 
         #region GetStuff
@@ -109,6 +112,18 @@ namespace Api.Controllers
         }
         #endregion
 
+        #region MenuItemRelated
+        [HttpGet]
+        [Route("{restaurantId}/menu-itens")]
+        public async Task<IActionResult> GetMenuItensOfRestaurant(long restaurantId)
+        {
+            var response = await this._menuItemService.GetMenuItensOfARestaurant(restaurantId);
+            if (response is null) return NotFound($"RestaurantId {restaurantId} was not found");
+            
+            return Ok(response);
+        }
+
+        #endregion
 
         #region SubscriptionRelated
         [HttpGet]
@@ -136,13 +151,14 @@ namespace Api.Controllers
         }
         #endregion
 
+        
 
         #endregion
 
 
         #region RestOfEndPoints
 
-        
+
         #region PostStuff
 
         [HttpPost]
@@ -154,6 +170,8 @@ namespace Api.Controllers
 
             return new JsonResult(response);
         }
+
+        
 
         #endregion
 

@@ -104,10 +104,5 @@ namespace Api.Controllers
 
         #endregion
         #endregion
-
-
-        //PATCH / api / menus /{ menuId: long}
-        //DELETE / api / menus /{ menuId: long}
-        //DELETE / api / menus /{ menuId: long}/ items /{ menuItemId: long}              // desvincular item-menu do menu
     }
 }
