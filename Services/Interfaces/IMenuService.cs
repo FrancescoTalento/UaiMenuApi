@@ -21,6 +21,6 @@ namespace Services.Interfaces
 
         public Task<MenuWithItemsResponse?> GetMenuWithItensByDay(long restaurantId, Weekday weekday);
 
-        public Task<IReadOnlyList<MenuResponse>> GetMenusById(params  long[] ids);
+        public Task<IReadOnlyList<MenuResponse>?> GetMenusById(params  long[] ids);
     }
 }

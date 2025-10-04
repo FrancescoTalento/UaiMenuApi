@@ -16,7 +16,7 @@ namespace Api.Controllers
         private readonly IAdmService _admService;
         private readonly IClientService _clientService;
         private readonly ISubscriptionService _subscriptionService;
-
+        private readonly IMenuService _menuService;
 
         #endregion
 
@@ -25,12 +25,14 @@ namespace Api.Controllers
             IRestaurantService restaurantService,
             IAdmService admService,
             IClientService clientService,
-            ISubscriptionService subscriptionService)
+            ISubscriptionService subscriptionService,
+            IMenuService menuService)
         {
             this._restaurantService = restaurantService;
             _admService = admService;
             _clientService = clientService;
             _subscriptionService = subscriptionService;
+            _menuService = menuService;
         }
 
         #region GetStuff
@@ -90,14 +92,20 @@ namespace Api.Controllers
         [Route("{restaurantId}/menus")]
         public async Task<IActionResult> GetMenusOfRestaurant(long restaurantId)
         {
-            throw new NotImplementedException();
+            var response = await this._menuService.GetAllMenusWithItens(restaurantId);
+            if (response == null) return NotFound($"Restaurant id {restaurantId} wasnt found");
+
+            return Ok(response);
         }
        
         [HttpGet]
         [Route("{restaurantId}/menus/{weekday}")]
         public async Task<IActionResult> GetMenusOfRestaurantByWeekday(long restaurantId, Weekday weekday)
         {
-            throw new NotImplementedException();
+            var response = await this._menuService.GetMenuWithItensByDay(restaurantId, weekday);
+            if (response == null) return NotFound($"Restaurant id {restaurantId} wasnt found");
+
+            return Ok(response);
         }
         #endregion
 
@@ -107,7 +115,10 @@ namespace Api.Controllers
         [Route("{restaurantId}/subscriptions/{weekday})")]
         public async Task<IActionResult> GetSubscriptionsByWeekday(long restaurantId, Weekday weekday)
         {
-            throw new NotImplementedException();
+            var responsse = await this._subscriptionService.GetSubscriptionByDay(restaurantId, new Weekday[] { weekday });
+            if(responsse == null) return NotFound($"Restaurant id {restaurantId} was not found");
+
+            return Ok(responsse);
         }
 
         [HttpGet]

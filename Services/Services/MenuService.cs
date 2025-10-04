@@ -98,6 +98,8 @@ namespace Services.Services
                 .Where(m => ids.Contains(m.Id))
                 .Select(m => m.ToResponse())
                 .AsQueryable();
+
+            if(menus is null) return null;
             
             return await menus.ToListAsync();
         }
